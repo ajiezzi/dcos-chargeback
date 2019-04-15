@@ -36,7 +36,7 @@ The formula parameters will be broken down into two groups, cluster and task.
 **Number of agents:** 10 <br>
 **Total vCPU's:** 20 <br>
 **Total memory:** 80 <br>
-**vCPU/memory weight:** .25 <br>
+**vCPU/memory weight:** (2 vCPU / 8 GB memory) = .25 <br>
 **Total EC2 cost:** $1,000 <br>
 
 DC/OS task actuals:
