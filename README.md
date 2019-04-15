@@ -34,10 +34,10 @@ The formula parameters will be broken down into two groups, cluster and task.
 **Total minutes:** 43,800 <br>
 **EC2 Instance Type:** m4.large (2 vCPU, 8 GB memory) <br>
 **Number of agents:** 10 <br>
-**Total vCPU's:** 20 <br>
-**Total memory:** 80 <br>
+**Total vCPU's:** (2 vCPU * 10 agents) = 20 <br>
+**Total memory:** (8GB memory * 10 agents) = 80<br>
 **vCPU/memory weight:** (2 vCPU / 8 GB memory) = .25 <br>
-**Total EC2 cost:** $1,000 <br>
+**Total EC2 cost of all agents:** $1,000 <br>
 
 DC/OS task actuals:
 
