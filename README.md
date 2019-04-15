@@ -51,8 +51,8 @@ The formula parameters will be broken down into two groups, cluster and task.
 
 1. Cluster parameters:
 
-**Total EC2 cost of the DC/OS agents:** $1,000
-**Total vCPU's of the DC/OS agents:** m4.large (2 vCPu, 8 GB memory) x 10 instances = 20 vCPU's
+<p>**Total EC2 cost of the DC/OS agents:** $1,000</p>
+<p>**Total vCPU's of the DC/OS agents:** m4.large (2 vCPu, 8 GB memory) x 10 instances = 20 vCPU's</p>
 **Total memory of the DC/OS agents:** m4.large (2 vCPu, 8 GB memory) x 10 instances = 80 GB memory
 **vCPU/memory weight:** Weighted fraction that you can use to disproportionately divide the instance cost between vCPU and memory. For example, m4.large would be .25
 
