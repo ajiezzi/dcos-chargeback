@@ -45,6 +45,8 @@ Looks like there are three main components to this:
 	
 #### Chargeback measurement
 
+
+
 The DC/OS vCPU and memory costs are calculated using the following formulas.
 
 The formula will be using the following parameters:
@@ -73,27 +75,29 @@ Task vCPU cost = (task vCPU allocation/total vCPUs) * (vCPU/memory weight) * (to
 
 Task memory cost = (task memory allocation/total memory) * (1 - vCPU/memory weight) * (total EC2 cost) * (task run time/total mins)
 
+#### Example
+
 Example parameters:
 
-Total minutes: 43,800
-EC2 Instance Type: m4.large (2 vCPU, 8 GB memory)
-Number of agents: 10
-Total vCPU's: 20
-Total memory: 80
-vCPU/memory weight: .25
-Total EC2 cost of agents: $1,000
+	Total minutes: 43,800
+	EC2 Instance Type: m4.large (2 vCPU, 8 GB memory)
+	Number of agents: 10
+	Total vCPU's: 20
+	Total memory: 80
+	vCPU/memory weight: .25
+	Total EC2 cost of agents: $1,000
 
 Example Tasks:
 
-Task1 - 6 vCPU, 1 GB memory, 43,800 minutes
-Task2 - 10 vCpu, 10 GB memory, 43,800 minutes
-Task3 - 2 vCPU, 2 GB memory, 21,900 minutes
-Task4 - 2 vCPU, 2 GB memory, 43,800 minutes
-Task5 - 2 vCPU, 4 GB memory, 21,900 minutes
+	Task1 - 6 vCPU, 1 GB memory, 43,800 minutes
+	Task2 - 10 vCpu, 10 GB memory, 43,800 minutes
+	Task3 - 2 vCPU, 2 GB memory, 21,900 minutes
+	Task4 - 2 vCPU, 2 GB memory, 43,800 minutes
+	Task5 - 2 vCPU, 4 GB memory, 21,900 minutes
 
-Task1 vCPU cost = (6/20) * (.25) * (1000) * (43800/43800) = $75
-Task2 vCPU cost = (10/20) * (.25) * (1000) * (43800/43800) = $125
-Task3 vCPU cost = (2/20) * (.25) * (1000) * (21900/43800) = $12.5
-Task4 vCPU cost = (2/20) * (.25) * (1000) * (43800/43800) = $25
-Task5 vCPU cost = (2/20) * (.25) * (1000) * (21900/43800) = $12.5
+	Task1 vCPU cost = (6/20) * (.25) * (1000) * (43800/43800) = $75
+	Task2 vCPU cost = (10/20) * (.25) * (1000) * (43800/43800) = $125
+	Task3 vCPU cost = (2/20) * (.25) * (1000) * (21900/43800) = $12.5
+	Task4 vCPU cost = (2/20) * (.25) * (1000) * (43800/43800) = $25
+	Task5 vCPU cost = (2/20) * (.25) * (1000) * (21900/43800) = $12.5
      
