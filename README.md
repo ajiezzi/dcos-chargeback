@@ -23,7 +23,7 @@ The formula parameters will be broken down into two groups, cluster and task.
    * **Marathon memory allocation**
    * **Total task duration in minutes**
 
-vCPU and Memory Formulas:
+### vCPU and memory formulas:
 
 **Task vCPU cost** = (task vCPU allocation/total vCPUs) * (vCPU/memory weight) * (total EC2 cost) * (task run time/total mins)
 
@@ -50,12 +50,14 @@ DC/OS task actuals:
 | task5     | 2    | 4 GB   | 21900 minutes |
 
 Task vCPU calculations:
-	
-**task1 vCPU cost** = (6/20) * (.25) * (1000) * (43800/43800) = **$75** <br>
-**task2 vCPU cost** = (10/20) * (.25) * (1000) * (43800/43800) = **$125** <br>
-**task3 vCPU cost** = (2/20) * (.25) * (1000) * (21900/43800) = **$12.50** <br>
-**task4 vCPU cost** = (2/20) * (.25) * (1000) * (43800/43800) = **$25** <br>
-**task5 vCPU cost** = (2/20) * (.25) * (1000) * (21900/43800) = **$12.50** <br>
+
+| Task Name | vCPU calculation | vCPU cost |
+| --------- |:----------------:|:---------:|
+|task1|(6/20) * (.25) * (1000) * (43800/43800)|$75|
+|task2|(10/20) * (.25) * (1000) * (43800/43800)|$125|
+|task3|(2/20) * (.25) * (1000) * (21900/43800)|$12.50|
+|task4|(2/20) * (.25) * (1000) * (43800/43800)|$25|
+|task5|(2/20) * (.25) * (1000) * (21900/43800)|$12.50|
 	
 ## Implementation details
 
