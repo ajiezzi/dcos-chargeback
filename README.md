@@ -4,7 +4,7 @@
 
 We need to be able to track cluster utilization for tenants and be able to charge them for their usage of the cluster.
 
-#### Discussion
+#### Implementation
 
 Looking at using the DC/OS and/or Mesos APIs on a regular basis to monitor current utilization (things like CPU allocation and/or utilization).  Need to figure out where to store it, and how to generate reports.  Should be doable but need more research on best way to handle this, cause there are a lot of different ways this could be achieved.
 
@@ -45,59 +45,52 @@ Looks like there are three main components to this:
 	
 #### Chargeback measurement
 
+The DC/OS chargeback calculation will start by summarizing all of the AWS EC2 agents in the DC/OS cluster. This will allow us to summarize the total vCPU and memory available for the month. To track task duration, we will use minutes as the time increment. Each task will be rounded up to the nearest minute. 
 
+The formula parameters will be broken down into two groups, cluster and task.
 
-The DC/OS vCPU and memory costs are calculated using the following formulas.
+1. Cluster parameters:
 
-The formula will be using the following parameters:
+**Total EC2 cost of the DC/OS agents:** $1,000
+**Total vCPU's of the DC/OS agents:** m4.large (2 vCPu, 8 GB memory) x 10 instances = 20 vCPU's
+**Total memory of the DC/OS agents:** m4.large (2 vCPu, 8 GB memory) x 10 instances = 80 GB memory
+**vCPU/memory weight:** Weighted fraction that you can use to disproportionately divide the instance cost between vCPU and memory. For example, m4.large would be .25
 
-General parameters:
+2. Task parameters:
 
-	* Time increment: minutes
-	* Total minutes in a month: 43,800
-
-Cluster parameters:
-
-	* Total EC2 cost of the DC/OS agents
-	* Total vCPU's of the DC/OS agents: m4.large (2 vCPu, 8 GB memory) x 10 instances = 20 vCPU's
-	* Total memory of the DC/OS agents: m4.large (2 vCPu, 8 GB memory) x 10 instances = 80 GB memory
-	* vCPU/memory weight: Weighted fraction that you can use to disproportionately divide the instance cost between vCPU and memory. For example, m4.large would be .25
-
-Task parameters:
-
-	* Marathon vCPU allocation
-	* Marathon memory allocation
-	* Total task duration in minutes
+**Marathon vCPU allocation**
+**Marathon memory allocation**
+**Total task duration in minutes**
 
 Formulas:
 
-Task vCPU cost = (task vCPU allocation/total vCPUs) * (vCPU/memory weight) * (total EC2 cost) * (task run time/total mins)
+**Task vCPU cost** = (task vCPU allocation/total vCPUs) * (vCPU/memory weight) * (total EC2 cost) * (task run time/total mins)
 
-Task memory cost = (task memory allocation/total memory) * (1 - vCPU/memory weight) * (total EC2 cost) * (task run time/total mins)
+**Task memory cost** = (task memory allocation/total memory) * (1 - vCPU/memory weight) * (total EC2 cost) * (task run time/total mins)
 
-#### Example
+##### Example calcuation
 
-Example parameters:
+Total minutes: 43,800
+EC2 Instance Type: m4.large (2 vCPU, 8 GB memory)
+Number of agents: 10
+Total vCPU's: 20
+Total memory: 80
+vCPU/memory weight: .25
+Total EC2 cost: $1,000
 
-	Total minutes: 43,800
-	EC2 Instance Type: m4.large (2 vCPU, 8 GB memory)
-	Number of agents: 10
-	Total vCPU's: 20
-	Total memory: 80
-	vCPU/memory weight: .25
-	Total EC2 cost of agents: $1,000
+DC/OS tasks:
 
-Example Tasks:
+| Task Name | vCPU | memory | task duration |
+| --------- |:----:|:------:|:-------------:|
+| task1     | 6    | 1 GB   | 43800 minutes |
+| task2     | 10   | 10 GB  | 43800 minutes |
+| task3     | 2    | 2 GB   | 21900 minutes |
+| task4     | 2    | 2 GB   | 43800 minutes |
+| task5     | 2    | 4 GB   | 21900 minutes |
 
-	Task1 - 6 vCPU, 1 GB memory, 43,800 minutes
-	Task2 - 10 vCpu, 10 GB memory, 43,800 minutes
-	Task3 - 2 vCPU, 2 GB memory, 21,900 minutes
-	Task4 - 2 vCPU, 2 GB memory, 43,800 minutes
-	Task5 - 2 vCPU, 4 GB memory, 21,900 minutes
 
-	Task1 vCPU cost = (6/20) * (.25) * (1000) * (43800/43800) = $75
-	Task2 vCPU cost = (10/20) * (.25) * (1000) * (43800/43800) = $125
-	Task3 vCPU cost = (2/20) * (.25) * (1000) * (21900/43800) = $12.5
-	Task4 vCPU cost = (2/20) * (.25) * (1000) * (43800/43800) = $25
-	Task5 vCPU cost = (2/20) * (.25) * (1000) * (21900/43800) = $12.5
-     
+Task1 vCPU cost = (6/20) * (.25) * (1000) * (43800/43800) = $75
+Task2 vCPU cost = (10/20) * (.25) * (1000) * (43800/43800) = $125
+Task3 vCPU cost = (2/20) * (.25) * (1000) * (21900/43800) = $12.5
+Task4 vCPU cost = (2/20) * (.25) * (1000) * (43800/43800) = $25
+Task5 vCPU cost = (2/20) * (.25) * (1000) * (21900/43800) = $12.5
