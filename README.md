@@ -31,13 +31,13 @@ vCPU and Memory Formulas:
 
 ### Example calcuation
 
-Total minutes: 43,800 <br>
-EC2 Instance Type: m4.large (2 vCPU, 8 GB memory) <br>
-Number of agents: 10 <br>
-Total vCPU's: 20 <br>
-Total memory: 80 <br>
-vCPU/memory weight: .25 <br>
-Total EC2 cost: $1,000 <br>
+**Total minutes:** 43,800 <br>
+**EC2 Instance Type:** m4.large (2 vCPU, 8 GB memory) <br>
+**Number of agents:** 10 <br>
+**Total vCPU's:** 20 <br>
+**Total memory:** 80 <br>
+**vCPU/memory weight:** .25 <br>
+**Total EC2 cost:** $1,000 <br>
 
 DC/OS task actuals:
 
