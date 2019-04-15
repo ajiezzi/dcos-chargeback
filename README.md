@@ -42,4 +42,58 @@ Looks like there are three main components to this:
 	* Simple python script should be able to accomplish the consumption and parsing. Can probably leverage alot of the Marathon autoscaler patterns used for:
         * authentication
         * query
+	
+#### Chargeback measurement
+
+The DC/OS vCPU and memory costs are calculated using the following formulas.
+
+The formula will be using the following parameters:
+
+General parameters:
+
+	* Time increment: minutes
+	* Total minutes in a month: 43,800
+
+Cluster parameters:
+
+	* Total EC2 cost of the DC/OS agents
+	* Total vCPU's of the DC/OS agents: m4.large (2 vCPu, 8 GB memory) x 10 instances = 20 vCPU's
+	* Total memory of the DC/OS agents: m4.large (2 vCPu, 8 GB memory) x 10 instances = 80 GB memory
+	* vCPU/memory weight: Weighted fraction that you can use to disproportionately divide the instance cost between vCPU and memory. For example, m4.large would be .25
+
+Task parameters:
+
+	* Marathon vCPU allocation
+	* Marathon memory allocation
+	* Total task duration in minutes
+
+Formulas:
+
+Task vCPU cost = (task vCPU allocation/total vCPUs) * (vCPU/memory weight) * (total EC2 cost) * (task run time/total mins)
+
+Task memory cost = (task memory allocation/total memory) * (1 - vCPU/memory weight) * (total EC2 cost) * (task run time/total mins)
+
+Example parameters:
+
+Total minutes: 43,800
+EC2 Instance Type: m4.large (2 vCPU, 8 GB memory)
+Number of agents: 10
+Total vCPU's: 20
+Total memory: 80
+vCPU/memory weight: .25
+Total EC2 cost of agents: $1,000
+
+Example Tasks:
+
+Task1 - 6 vCPU, 1 GB memory, 43,800 minutes
+Task2 - 10 vCpu, 10 GB memory, 43,800 minutes
+Task3 - 2 vCPU, 2 GB memory, 21,900 minutes
+Task4 - 2 vCPU, 2 GB memory, 43,800 minutes
+Task5 - 2 vCPU, 4 GB memory, 21,900 minutes
+
+Task1 vCPU cost = (6/20) * (.25) * (1000) * (43800/43800) = $75
+Task2 vCPU cost = (10/20) * (.25) * (1000) * (43800/43800) = $125
+Task3 vCPU cost = (2/20) * (.25) * (1000) * (21900/43800) = $12.5
+Task4 vCPU cost = (2/20) * (.25) * (1000) * (43800/43800) = $25
+Task5 vCPU cost = (2/20) * (.25) * (1000) * (21900/43800) = $12.5
      
