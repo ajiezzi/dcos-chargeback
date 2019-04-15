@@ -31,31 +31,31 @@ vCPU and Memory Formulas:
 
 ### Example calcuation
 
-	Total minutes: 43,800
-	EC2 Instance Type: m4.large (2 vCPU, 8 GB memory)
-	Number of agents: 10
-	Total vCPU's: 20
-	Total memory: 80
-	vCPU/memory weight: .25
-	Total EC2 cost: $1,000
+Total minutes: 43,800 <br>
+EC2 Instance Type: m4.large (2 vCPU, 8 GB memory) <br>
+Number of agents: 10 <br>
+Total vCPU's: 20 <br>
+Total memory: 80 <br>
+vCPU/memory weight: .25 <br>
+Total EC2 cost: $1,000 <br>
 
-	DC/OS task actuals:
+DC/OS task actuals:
 
-	| Task Name | vCPU | memory | task duration |
-	| --------- |:----:|:------:|:-------------:|
-	| task1     | 6    | 1 GB   | 43800 minutes |
-	| task2     | 10   | 10 GB  | 43800 minutes |
-	| task3     | 2    | 2 GB   | 21900 minutes |
-	| task4     | 2    | 2 GB   | 43800 minutes |
-	| task5     | 2    | 4 GB   | 21900 minutes |
+| Task Name | vCPU | memory | task duration |
+| --------- |:----:|:------:|:-------------:|
+| task1     | 6    | 1 GB   | 43800 minutes |
+| task2     | 10   | 10 GB  | 43800 minutes |
+| task3     | 2    | 2 GB   | 21900 minutes |
+| task4     | 2    | 2 GB   | 43800 minutes |
+| task5     | 2    | 4 GB   | 21900 minutes |
 
-	Task vCPU calculations:
+Task vCPU calculations:
 	
-	task1 vCPU cost = (6/20) * (.25) * (1000) * (43800/43800) = $75
-	task2 vCPU cost = (10/20) * (.25) * (1000) * (43800/43800) = $125
-	task3 vCPU cost = (2/20) * (.25) * (1000) * (21900/43800) = $12.50
-	task4 vCPU cost = (2/20) * (.25) * (1000) * (43800/43800) = $25
-	task5 vCPU cost = (2/20) * (.25) * (1000) * (21900/43800) = $12.50
+**task1 vCPU cost** = (6/20) * (.25) * (1000) * (43800/43800) = **$75** <br>
+**task2 vCPU cost** = (10/20) * (.25) * (1000) * (43800/43800) = **$125** <br>
+**task3 vCPU cost** = (2/20) * (.25) * (1000) * (21900/43800) = **$12.50** <br>
+**task4 vCPU cost** = (2/20) * (.25) * (1000) * (43800/43800) = **$25** <br>
+**task5 vCPU cost** = (2/20) * (.25) * (1000) * (21900/43800) = **$12.50** <br>
 	
 ## Implementation details
 
@@ -85,4 +85,4 @@ Three main components to the implementation:
     * Simple python script should be able to accomplish the consumption and parsing. Can probably leverage alot of the Marathon autoscaler patterns used for:
         * authentication
         * query
-	* parsing
+        * parsing
