@@ -6,7 +6,7 @@ Provide a mechanism to track cluster utilization for tenants and be able to char
 
 ## Chargeback calculation
 
-The DC/OS chargeback calculation will start by summarizing all of the AWS EC2 agents in the DC/OS cluster. This will allow us to summarize the total vCPU and memory available for the month. To track task duration, we will use minutes as the time increment. Each task will be rounded up to the nearest minute. A weighted fraction will also be used to disproportionately divide the instance cost between vCPU and memory. For example, an m4.large (2 vCPU, 8GB memory) would be .25.
+The DC/OS chargeback calculation will start by summarizing all of the AWS EC2 agents in the DC/OS cluster. This will allow us to summarize the total vCPU and memory available for the month. To track task duration, we will use minutes as the time increment. Each task will be rounded up to the nearest minute. A weighted fraction will also be used to disproportionately divide the instance cost between vCPU and memory. For example, an m4.large (2 vCPU, 8GB memory) would be 0.25.
 
 The formula parameters will be broken down into two groups, cluster and task.
 
@@ -15,7 +15,7 @@ The formula parameters will be broken down into two groups, cluster and task.
    * **Total EC2 cost of the DC/OS agents:** $1,000
    * **Total vCPU's of the DC/OS agents:** m4.large (2 vCPu, 8 GB memory) x 10 instances = 20 vCPU's
    * **Total memory of the DC/OS agents:** m4.large (2 vCPu, 8 GB memory) x 10 instances = 80 GB memory
-   * **vCPU/memory weight:** m4.large (2 vCPu, 8 GB memory) = .25
+   * **vCPU/memory weight:** m4.large (2 vCPu, 8 GB memory) = 0.25
 
 2. Task parameters:
 
@@ -31,23 +31,23 @@ The formula parameters will be broken down into two groups, cluster and task.
 
 ### Example calcuation
 
-**Total minutes:** 43,800 <br>
+**Total minutes:** 43,200 (30 day month) <br>
 **EC2 Instance Type:** m4.large (2 vCPU, 8 GB memory) <br>
 **Number of agents:** 10 <br>
 **Total vCPU's:** (2 vCPU * 10 agents) = 20 <br>
 **Total memory:** (8GB memory * 10 agents) = 80<br>
-**vCPU/memory weight:** (2 vCPU / 8 GB memory) = .25 <br>
+**vCPU/memory weight:** (2 vCPU / 8 GB memory) = 0.25 <br>
 **Total EC2 cost of all agents:** $1,000 <br>
 
 Example DC/OS tasks:
 
 | Task Name | vCPU | memory | task duration | vCPU calculation | vCPU cost |
 | --------- |:----:|:------:|:-------------:|:-----------------|:---------:|
-| task1     | 6    | 1 GB   | 43800 minutes | ( 6 / 20 ) * 0.25 * 1000 * ( 43800 / 43800 ) |$75.00|
-| task2     | 10   | 10 GB  | 43800 minutes | (10 / 20 ) * 0.25 * 1000 * ( 43800 / 43800 ) |$125.00|
-| task3     | 2    | 2 GB   | 21900 minutes | ( 2 / 20 ) * 0.25 * 1000 * ( 21900 / 43800 ) |$12.50|
-| task4     | 2    | 2 GB   | 43800 minutes | ( 2 / 20 ) * 0.25 * 1000 * ( 43800 / 43800 ) |$25.00|
-| task5     | 2    | 4 GB   | 21900 minutes | ( 2 / 20 ) * 0.25 * 1000 * ( 21900 / 43800 ) |$12.50|
+| task1     | 6    | 1 GB   | 43800 minutes | ( 6 / 20 ) * 0.25 * 1000 * ( 43200 / 43200 ) |$75.00|
+| task2     | 10   | 10 GB  | 43800 minutes | (10 / 20 ) * 0.25 * 1000 * ( 43200 / 43200 ) |$125.00|
+| task3     | 2    | 2 GB   | 21900 minutes | ( 2 / 20 ) * 0.25 * 1000 * ( 21600 / 43200 ) |$12.50|
+| task4     | 2    | 2 GB   | 43800 minutes | ( 2 / 20 ) * 0.25 * 1000 * ( 43200 / 43200 ) |$25.00|
+| task5     | 2    | 4 GB   | 21900 minutes | ( 2 / 20 ) * 0.25 * 1000 * ( 21600 / 43200 ) |$12.50|
 	
 ## Implementation details
 
