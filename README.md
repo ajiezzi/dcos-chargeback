@@ -39,25 +39,15 @@ The formula parameters will be broken down into two groups, cluster and task.
 **vCPU/memory weight:** (2 vCPU / 8 GB memory) = .25 <br>
 **Total EC2 cost of all agents:** $1,000 <br>
 
-DC/OS task actuals:
+Example DC/OS tasks:
 
-| Task Name | vCPU | memory | task duration |
-| --------- |:----:|:------:|:-------------:|
-| task1     | 6    | 1 GB   | 43800 minutes |
-| task2     | 10   | 10 GB  | 43800 minutes |
-| task3     | 2    | 2 GB   | 21900 minutes |
-| task4     | 2    | 2 GB   | 43800 minutes |
-| task5     | 2    | 4 GB   | 21900 minutes |
-
-Task vCPU calculations:
-
-| Task Name | vCPU calculation | vCPU cost |
-| --------- |:----------------:|:---------:|
-|task1|(6/20) * (.25) * (1000) * (43800/43800)|$75.00|
-|task2|(10/20) * (.25) * (1000) * (43800/43800)|$125.00|
-|task3|(2/20) * (.25) * (1000) * (21900/43800)|$12.50|
-|task4|(2/20) * (.25) * (1000) * (43800/43800)|$25.00|
-|task5|(2/20) * (.25) * (1000) * (21900/43800)|$12.50|
+| Task Name | vCPU | memory | task duration | vCPU calculation | vCPU cost |
+| --------- |:----:|:------:|:-------------:|:-----------------|:---------:|
+| task1     | 6    | 1 GB   | 43800 minutes | ( 6 / 20 ) * 0.25 * 1000 * ( 43800 / 43800 ) |$75.00|
+| task2     | 10   | 10 GB  | 43800 minutes | (10 / 20 ) * 0.25 * 1000 * ( 43800 / 43800 ) |$125.00|
+| task3     | 2    | 2 GB   | 21900 minutes | ( 2 / 20 ) * 0.25 * 1000 * ( 21900 / 43800 ) |$12.50|
+| task4     | 2    | 2 GB   | 43800 minutes | ( 2 / 20 ) * 0.25 * 1000 * ( 43800 / 43800 ) |$25.00|
+| task5     | 2    | 4 GB   | 21900 minutes | ( 2 / 20 ) * 0.25 * 1000 * ( 21900 / 43800 ) |$12.50|
 	
 ## Implementation details
 
